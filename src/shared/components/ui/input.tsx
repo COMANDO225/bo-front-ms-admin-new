@@ -14,7 +14,7 @@ const inputVariants = cva(
 		variants: {
 			variant: {
 				bordered: 'border bg-transparent',
-				flat: 'border-transparent',
+				flat: 'border-transparent bg-transparent',
 			},
 			color: {
 				default: '',
@@ -24,19 +24,99 @@ const inputVariants = cva(
 				error: '',
 			},
 			size: {
-				sm: 'h-8 px-2.5 py-1 text-sm rounded-md',
-				md: 'h-10 py-1 rounded-md',
-				lg: 'h-12 px-4 py-2 rounded-lg',
+				sm: 'h-8 text-sm rounded-md',
+				md: 'h-10 rounded-md',
+				lg: 'h-12 rounded-lg',
+			},
+			hasStartContent: {
+				true: '',
+				false: '',
+			},
+			hasEndContent: {
+				true: '',
+				false: '',
 			},
 		},
 		compoundVariants: [
+			{
+				size: 'sm',
+				hasStartContent: false,
+				hasEndContent: false,
+				className: 'px-2.5 py-1',
+			},
+			{
+				size: 'sm',
+				hasStartContent: true,
+				hasEndContent: false,
+				className: 'pl-8 pr-2.5 py-1',
+			},
+			{
+				size: 'sm',
+				hasStartContent: false,
+				hasEndContent: true,
+				className: 'pl-2.5 pr-8 py-1',
+			},
+			{
+				size: 'sm',
+				hasStartContent: true,
+				hasEndContent: true,
+				className: 'pl-8 pr-8 py-1',
+			},
+			{
+				size: 'md',
+				hasStartContent: false,
+				hasEndContent: false,
+				className: 'px-3 py-1',
+			},
+			{
+				size: 'md',
+				hasStartContent: true,
+				hasEndContent: false,
+				className: 'pl-10 pr-3 py-1',
+			},
+			{
+				size: 'md',
+				hasStartContent: false,
+				hasEndContent: true,
+				className: 'pl-3 pr-10 py-1',
+			},
+			{
+				size: 'md',
+				hasStartContent: true,
+				hasEndContent: true,
+				className: 'pl-10 pr-10 py-1',
+			},
+			{
+				size: 'lg',
+				hasStartContent: false,
+				hasEndContent: false,
+				className: 'px-4 py-2',
+			},
+			{
+				size: 'lg',
+				hasStartContent: true,
+				hasEndContent: false,
+				className: 'pl-12 pr-4 py-2',
+			},
+			{
+				size: 'lg',
+				hasStartContent: false,
+				hasEndContent: true,
+				className: 'pl-4 pr-12 py-2',
+			},
+			{
+				size: 'lg',
+				hasStartContent: true,
+				hasEndContent: true,
+				className: 'pl-12 pr-12 py-2',
+			},
 			// Bordered + Default
 			{
 				variant: 'bordered',
 				color: 'default',
 				className: [
-					'border-border dark:bg-background/50',
-					'focus:border-ring focus:ring-ring/50',
+					'border-default-200 dark:bg-default-950/30',
+					'focus:border-default-300 focus:ring-default-300/50',
 				],
 			},
 			// Bordered + Primary
@@ -80,8 +160,8 @@ const inputVariants = cva(
 				variant: 'flat',
 				color: 'default',
 				className: [
-					'bg-muted/50 hover:bg-muted/70',
-					'focus:bg-background focus:border-ring focus:ring-ring/30',
+					'bg-default-100 hover:bg-default-200 dark:bg-default-950/20 dark:hover:bg-default-950/30',
+					'focus:bg-default-100 focus:border-ring focus:ring-transparent',
 				],
 			},
 			// Flat + Primary
@@ -125,12 +205,14 @@ const inputVariants = cva(
 			variant: 'bordered',
 			color: 'default',
 			size: 'md',
+			hasStartContent: false,
+			hasEndContent: false,
 		},
 	}
 )
 
 const labelVariants = cva(
-	'block text-sm font-semibold transition-colors mb-2 w-fit',
+	'block text-sm font-medium transition-colors mb-2 w-fit',
 	{
 		variants: {
 			color: {
@@ -143,7 +225,7 @@ const labelVariants = cva(
 			size: {
 				sm: 'text-xs',
 				md: 'text-sm',
-				lg: 'text-base mb-3',
+				lg: 'text-sm mb-3',
 			},
 		},
 		defaultVariants: {
@@ -171,19 +253,55 @@ const descriptionVariants = cva(
 	}
 )
 
+const iconWrapperVariants = cva(
+	'absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center text-default-400',
+	{
+		variants: {
+			position: {
+				start: 'left-0',
+				end: 'right-0',
+			},
+			size: {
+				sm: 'w-8 h-8',
+				md: 'w-10 h-10',
+				lg: 'w-12 h-12',
+			},
+		},
+		defaultVariants: {
+			position: 'start',
+			size: 'md',
+		},
+	}
+)
+
+export interface InputClassNames {
+	wrapper?: string
+	label?: string
+	labelText?: string
+	asterisk?: string
+	input?: string
+	description?: string
+	startContent?: string
+	endContent?: string
+}
+
 export interface InputProps
 	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'color'>,
 		VariantProps<typeof inputVariants> {
 	label?: string
-	description?: string
+	description?: string | null
 	isInvalid?: boolean
 	isRequired?: boolean
+	classNames?: InputClassNames
+	startContent?: React.ReactNode
+	endContent?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
 	(
 		{
 			className,
+			classNames,
 			variant = 'bordered',
 			color = 'default',
 			size = 'md',
@@ -192,6 +310,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 			description,
 			isInvalid = false,
 			isRequired = false,
+			startContent,
+			endContent,
 			id,
 			...props
 		},
@@ -204,20 +324,29 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 		const generatedId = React.useId()
 		const inputId = id || generatedId
 
+		const hasStartContent = !!startContent
+		const hasEndContent = !!endContent
+
 		return (
-			<div>
+			<div className={cn('w-full', classNames?.wrapper)}>
 				{label && (
 					<label
 						htmlFor={inputId}
 						className={cn(
-							labelVariants({ color: finalColor, size })
+							labelVariants({ color: finalColor, size }),
+							classNames?.label,
 						)}
 					>
-						{label}
+						<span className={cn(classNames?.labelText)}>
+							{label}
+						</span>
 						{isRequired && (
 							<span
-								className="text-destructive ml-1"
 								aria-label="required"
+								className={cn(
+									"text-destructive ml-1",
+									classNames?.asterisk
+								)}
 							>
 								*
 							</span>
@@ -225,26 +354,61 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 					</label>
 				)}
 
-				<input
-					type={type}
-					id={inputId}
-					ref={ref}
-					aria-invalid={isInvalid}
-					aria-describedby={
-						description ? `${inputId}-description` : undefined
-					}
-					className={cn(
-						inputVariants({ variant, color: finalColor, size }),
-						className
+				<div className="relative">
+					{/* Start Content */}
+					{startContent && (
+						<div
+							className={cn(
+								iconWrapperVariants({ position: 'start', size }),
+								classNames?.startContent
+							)}
+						>
+							{startContent}
+						</div>
 					)}
-					{...props}
-				/>
+
+					{/* Input */}
+					<input
+						type={type}
+						id={inputId}
+						ref={ref}
+						aria-invalid={isInvalid}
+						aria-describedby={
+							description ? `${inputId}-description` : undefined
+						}
+						className={cn(
+							inputVariants({ 
+								variant, 
+								color: finalColor, 
+								size,
+								hasStartContent,
+								hasEndContent
+							}),
+							className,
+							classNames?.input
+						)}
+						{...props}
+					/>
+
+					{/* End Content */}
+					{endContent && (
+						<div
+							className={cn(
+								iconWrapperVariants({ position: 'end', size }),
+								classNames?.endContent
+							)}
+						>
+							{endContent}
+						</div>
+					)}
+				</div>
 
 				{description && (
 					<p
 						id={`${inputId}-description`}
 						className={cn(
-							descriptionVariants({ color: finalColor })
+							descriptionVariants({ color: finalColor }),
+							classNames?.description
 						)}
 						role={isInvalid ? 'alert' : undefined}
 					>

@@ -4,10 +4,8 @@ import { Link } from '@tanstack/react-router'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { useState } from 'react'
-import {
-	recoverySchema,
-	type RecoveryFormData,
-} from '../schemas/recovery-form.schemas'
+import type { RecoveryFormData } from '../types/auth.types'
+import { recoverySchema } from '../schemas/auth-api.schemas'
 
 export function RecoveryForm() {
 	const [isLoading, setIsLoading] = useState(false)
@@ -45,18 +43,18 @@ export function RecoveryForm() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<Input
-				{...register('email')}
-				label="Correo electrónico"
-				type="email"
-				placeholder="tu@empresa.com"
+				{...register('username')}
+				label="Nombre de usuario"
+				type="text"
+				placeholder="tu.nombre"
 				isRequired
+				isInvalid={!!errors.username}
 				size={'lg'}
-				isInvalid={!!errors.email}
 				description={
-					errors.email?.message ||
-					(touchedFields.email && !errors.email)
+					errors.username?.message ||
+					(touchedFields.username && !errors.username)
 						? ''
-						: 'Ingresa tu email corporativo'
+						: 'Ingresa tu nombre de usuario'
 				}
 			/>
 

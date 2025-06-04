@@ -44,7 +44,7 @@ export function AuthLayout({
 			</div>
 			
 			{/* efecto que va desde abajo hacia arriba */}
-			<div className={cn("absolute bottom-0 shadow w-full h-fit p-8 px-4 bg-background rounded-t-lg",
+			<div className={cn("absolute bottom-0 shadow w-full h-fit p-8 pb-4 px-4 bg-background rounded-t-lg",
 				showBackLink && "pt-4"
 			)}>
 				{showBackLink && (
@@ -58,7 +58,7 @@ export function AuthLayout({
 						</button>
 					</div>
 				)}
-				<img src='images/ecommerce-dinet-box-hands.png' alt="Dinet Box" className="absolute bottom-[100%] left-1/2 -translate-x-1/2 w-full max-w-96" />
+				<img src='images/ecommerce-dinet-box-hands.png' alt="Dinet Box" className="absolute bottom-[100%] left-1/2 -translate-x-1/2 w-full max-w-[268px] ml-[-4px]" />
 				<div className="text-center space-y-2">
 					<h1 className="text-2xl font-bold text-foreground">
 						{title}

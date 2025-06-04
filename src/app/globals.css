@@ -45,6 +45,22 @@
 	--color-secondary-800: oklch(0.27 0.0974 262.75); /* Color base de Dinet */
 	--color-secondary-900: oklch(0.2 0.08 262.75);
 	--color-secondary-950: oklch(0.15 0.06 262.75);
+	
+	/* Tonalidades default */
+	--color-default-50: oklch(0.98 0.002 240);
+	--color-default-100: oklch(0.96 0.005 240);
+	--color-default-200: oklch(0.90 0.008 240);
+	--color-default-300: oklch(0.84 0.006 240);
+	--color-default-400: oklch(0.65 0.008 240);
+	--color-default-500: oklch(0.46 0.005 240);
+	--color-default-600: oklch(0.34 0.007 240);
+	--color-default-700: oklch(0.26 0.007 240);
+	--color-default-800: oklch(0.16 0.005 240);
+	--color-default-900: oklch(0.10 0.008 240);
+	--color-default-950: oklch(0.05 0.006 240);
+	
+	--color-default: var(--default);
+
 	--color-muted: var(--muted);
 	--color-muted-foreground: var(--muted-foreground);
 	--color-accent: var(--accent);
@@ -80,6 +96,7 @@
 	--primary-foreground: oklch(1 0 0); /* Blanco para contraste */
 	--secondary: oklch(0.27 0.0974 262.75); /* Color base azul de Dinet */
 	--secondary-foreground: oklch(1 0 0); /* Blanco para contraste */
+	--default: oklch(0.84 0.006 240); /* Color base gris claro */
 	--muted: oklch(0.97 0 0);
 	--muted-foreground: oklch(0.556 0 0);
 	--accent: oklch(0.97 0 0);

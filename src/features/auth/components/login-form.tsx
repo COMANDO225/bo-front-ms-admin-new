@@ -4,14 +4,20 @@ import { z } from 'zod'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Mail } from 'lucide-react'
 import { useState } from 'react'
 
 const loginSchema = z.object({
-	email: z.string().email('Ingresa un email válido'),
+	username: z
+		.string({ required_error: 'El nombre de usuario es obligatorio' })
+		.min(3, 'El nombre de usuario debe tener al menos 3 caracteres')
+		.max(50, 'El nombre de usuario no puede tener más de 50 caracteres')
+		.regex(/^[a-zA-Z]+$/, 'El nombre de usuario solo puede contener letras')
+		.trim(),
 	password: z
-		.string()
-		.min(6, 'La contraseña debe tener al menos 6 caracteres'),
+		.string({ required_error: 'La contraseña es obligatoria' })
+		.min(6, 'La contraseña debe tener al menos 6 caracteres')
+		.trim(),
 })
 
 type LoginFormData = z.infer<typeof loginSchema>
@@ -27,7 +33,7 @@ export function LoginForm() {
 	} = useForm<LoginFormData>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			email: 'admin@themesbrand.com',
+			username: 'aalmeyda',
 		},
 	})
 
@@ -46,53 +52,49 @@ export function LoginForm() {
 		}
 	}
 
+	const toggleVisibility = () => 
+		setShowPassword((prev) => !prev)
+	
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<div className="space-y-4">
 					<Input
-						id="email"
-						type="email"
-						placeholder="admin@themesbrand.com"
-						{...register('email')}
+						{...register('username')}
+						label='Nombre de usuario'
+						type="text"
+						placeholder="aalmeyda"
+						isRequired
+						isInvalid={!!errors.username}
+						size={'lg'}
+						endContent={<Mail strokeWidth={1.75} size={22} />}
+						description={errors.username?.message ?? null}
 					/>
-
-				<div>
-					<label
-						htmlFor="password"
-						className="block text-sm font-medium text-foreground mb-2"
-					>
-						Contraseña
-					</label>
-					<div className="relative">
-						<Input
-							id="password"
-							type={showPassword ? 'text' : 'password'}
-							placeholder="••••••"
-							{...register('password')}
-							className={
-								errors.password
-									? 'border-destructive pr-12'
-									: 'pr-12'
-							}
-						/>
-						<button
-							type="button"
-							onClick={() => setShowPassword(!showPassword)}
-							className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-						>
+					<Input
+						id="password"
+						type={showPassword ? 'text' : 'password'}
+						placeholder="••••••"
+						{...register('password')}
+						size={'lg'}
+						label='Contraseña'
+						isInvalid={!!errors.password}
+						isRequired
+						endContent={
+							<button
+								aria-label="toggle password visibility"
+								className="focus:outline-none"
+								type="button"
+								onClick={toggleVisibility}
+							>
 							{showPassword ? (
-								<EyeOff size={20} />
+								<EyeOff strokeWidth={1.75} size={22} />
 							) : (
-								<Eye size={20} />
+								<Eye strokeWidth={1.75} size={22} />
 							)}
-						</button>
-					</div>
-					{errors.password && (
-						<p className="mt-1 text-sm text-destructive">
-							{errors.password.message}
-						</p>
-					)}
-				</div>
+							</button>
+						}
+						description={errors.password?.message ?? null}
+					/>
 			</div>
 
 			<div className="flex items-center justify-end">
@@ -106,8 +108,9 @@ export function LoginForm() {
 
 			<Button
 				type="submit"
-				className="w-full bg-primary-500 hover:bg-primary-600 text-white"
+				className="w-full h-12 bg-primary-500 hover:bg-primary-600 text-white"
 				disabled={isLoading}
+				size={'lg'}
 			>
 				{isLoading ? 'Ingresando...' : 'Ingresar'}
 			</Button>
