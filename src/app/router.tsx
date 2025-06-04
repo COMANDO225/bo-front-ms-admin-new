@@ -2,7 +2,9 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
+
 import { routeTree } from '@/routeTree.gen'
+import { Toaster } from '@/shared/components/ui/sonner'
 
 const router = createRouter({
 	routeTree,
@@ -42,6 +44,10 @@ export function AppRouter() {
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={router} />
 			<ReactQueryDevtools initialIsOpen={false} />
+			<Toaster
+				position="top-right"
+				closeButton
+			/>
 		</QueryClientProvider>
 	)
 }

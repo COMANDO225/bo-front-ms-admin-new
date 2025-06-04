@@ -254,7 +254,7 @@ const descriptionVariants = cva(
 )
 
 const iconWrapperVariants = cva(
-	'absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center text-default-400',
+	'absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center text-default-400 pointer-events-none',
 	{
 		variants: {
 			position: {
@@ -363,7 +363,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 								classNames?.startContent
 							)}
 						>
-							{startContent}
+							<div className='grid justify-start items-center'>{startContent}</div>
 						</div>
 					)}
 
@@ -398,7 +398,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 								classNames?.endContent
 							)}
 						>
-							{endContent}
+							<div className='grid justify-end items-center'>{endContent}</div>
 						</div>
 					)}
 				</div>

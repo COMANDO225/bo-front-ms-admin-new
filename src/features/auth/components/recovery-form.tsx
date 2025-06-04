@@ -6,6 +6,7 @@ import { Input } from '@/shared/components/ui/input'
 import { useState } from 'react'
 import type { RecoveryFormData } from '../types/auth.types'
 import { recoverySchema } from '../schemas/auth-api.schemas'
+import { User } from 'lucide-react'
 
 export function RecoveryForm() {
 	const [isLoading, setIsLoading] = useState(false)
@@ -14,7 +15,7 @@ export function RecoveryForm() {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors, touchedFields },
+		formState: { errors },
 		// watch,
 	} = useForm<RecoveryFormData>({
 		resolver: zodResolver(recoverySchema),
@@ -46,16 +47,12 @@ export function RecoveryForm() {
 				{...register('username')}
 				label="Nombre de usuario"
 				type="text"
-				placeholder="tu.nombre"
+				placeholder="aalmeyda"
 				isRequired
 				isInvalid={!!errors.username}
 				size={'lg'}
-				description={
-					errors.username?.message ||
-					(touchedFields.username && !errors.username)
-						? ''
-						: 'Ingresa tu nombre de usuario'
-				}
+				endContent={<User strokeWidth={1.75} size={22} />}
+				description={errors.username?.message ?? null}
 			/>
 
 			<div className="space-y-4">

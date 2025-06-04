@@ -1,10 +1,11 @@
 import { apiClient } from '@/shared/lib/axios'
 import { API_CONFIG } from '@/shared/utils/constants'
-import { parseBackendSuccess } from '@/shared/types/api.types'
+import { parseBackendSuccess, type BackendErrorDetail } from '@/shared/types/api.types'
 import {
     tokenDataSchema
 } from '../schemas/auth-api.schemas'
 import type { LoginFormData, LoginResponse, RefreshResponse, TokenData, UserData } from '../types/auth.types'
+import { base64UrlToBase64 } from '@/shared/utils/formatters'
 
 export interface JWTPayload {
     token_type: string           // "access"
@@ -128,7 +129,11 @@ export function decodeTokenPayload(token: string): JWTPayload | null {
         const payload = token.split('.')[1]
         if (!payload) return null
 
-        const decoded = atob(payload)
+        // 🔧 Convertir Base64URL a Base64 estándar
+        const base64 = base64UrlToBase64(payload)
+
+        // 🛠️ Decodificar Base64 a string y luego parsear JSON
+        const decoded = atob(base64)
         const parsed = JSON.parse(decoded) as JWTPayload
 
         return parsed
@@ -195,6 +200,78 @@ export function isTokenForCorrectAudience(token: string, expectedAudience: strin
     if (!payload || !payload.aud) return false
 
     return payload.aud.includes(expectedAudience)
+}
+
+/**
+ * Clase personalizada para errores de API
+ */
+export class ApiError extends Error {
+    public readonly status: number
+    public readonly code: string
+    public readonly details: BackendErrorDetail[]
+    public readonly timestamp?: string
+    public readonly uri?: string
+
+    constructor(options: {
+        message: string
+        status: number
+        code: string
+        details: BackendErrorDetail[]
+        timestamp?: string
+        uri?: string
+    }) {
+        super(options.message)
+        this.name = 'ApiError'
+        this.status = options.status
+        this.code = options.code
+        this.details = options.details
+        this.timestamp = options.timestamp
+        this.uri = options.uri
+    }
+
+    /**
+     * Obtener errores por campo (útil para formularios)
+     */
+    getFieldErrors(): Record<string, string> {
+        const fieldErrors: Record<string, string> = {}
+
+        this.details.forEach(detail => {
+            if (detail.field) {
+                fieldErrors[detail.field] = detail.message
+            }
+        })
+
+        return fieldErrors
+    }
+
+    /**
+     * Verificar si hay errores de validación
+     */
+    hasValidationErrors(): boolean {
+        return this.details.some(detail => detail.code === 'validation')
+    }
+
+    /**
+     * Obtener primer error de validación para un campo específico
+     */
+    getFieldError(fieldName: string): string | null {
+        const fieldError = this.details.find(
+            detail => detail.field === fieldName && detail.code === 'validation'
+        )
+        return fieldError?.message || null
+    }
+
+    /**
+     *  Método para integración con react-hook-form
+     */
+    setFormErrors(setError: (name: string, error: { message: string }) => void): void {
+        if (this.hasValidationErrors()) {
+            const fieldErrors = this.getFieldErrors()
+            Object.entries(fieldErrors).forEach(([field, message]) => {
+                setError(field, { message })
+            })
+        }
+    }
 }
 
 export const { login, refresh, logout, verifyToken, getCurrentUser } = authApi

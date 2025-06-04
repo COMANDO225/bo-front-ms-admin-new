@@ -4,7 +4,8 @@ import axios, {
     type InternalAxiosRequestConfig
 } from 'axios'
 import { API_CONFIG, ERROR_MESSAGES } from '@/shared/utils/constants'
-import type { BackendErrorDetail, BackendErrorResponse } from '../types/api.types'
+import { isBackendError, parseBackendError } from '../types/api.types'
+import { ApiError } from '@/features/auth/api/auth-api'
 
 // Crear instancia de Axios
 export const apiClient: AxiosInstance = axios.create({
@@ -56,7 +57,7 @@ apiClient.interceptors.response.use(
     (response) => {
         return response
     },
-    async (error: AxiosError<BackendErrorResponse>) => {
+    async (error: AxiosError) => {
         const originalRequest = error.config as InternalAxiosRequestConfig & {
             _retry?: boolean
         }
@@ -99,7 +100,7 @@ apiClient.interceptors.response.use(
 /**
  * Crear error personalizado basado en la respuesta del backend
  */
-function createApiError(axiosError: AxiosError<BackendErrorResponse>) {
+function createApiError(axiosError: AxiosError) {
     const response = axiosError.response
 
     if (!response) {
@@ -112,17 +113,16 @@ function createApiError(axiosError: AxiosError<BackendErrorResponse>) {
         })
     }
 
-    const backendError = response.data?.error
+    if (isBackendError(response.data)) {
+        const validatedError = parseBackendError(response.data)
 
-    if (backendError) {
-        // Error estructurado del backend
         return new ApiError({
-            message: backendError.error_message,
+            message: validatedError.error.error_message,
             status: response.status,
-            code: backendError.error_code,
-            details: backendError.error_detail || [],
-            timestamp: response.data.timestamp,
-            uri: response.data.uri
+            code: validatedError.error.error_code,
+            details: validatedError.error.error_detail,
+            timestamp: validatedError.timestamp,
+            uri: validatedError.uri
         })
     }
 
@@ -136,72 +136,12 @@ function createApiError(axiosError: AxiosError<BackendErrorResponse>) {
 }
 
 /**
- * Clase personalizada para errores de API
- */
-export class ApiError extends Error {
-    public readonly status: number
-    public readonly code: string
-    public readonly details: BackendErrorDetail[]
-    public readonly timestamp?: string
-    public readonly uri?: string
-
-    constructor(options: {
-        message: string
-        status: number
-        code: string
-        details: BackendErrorDetail[]
-        timestamp?: string
-        uri?: string
-    }) {
-        super(options.message)
-        this.name = 'ApiError'
-        this.status = options.status
-        this.code = options.code
-        this.details = options.details
-        this.timestamp = options.timestamp
-        this.uri = options.uri
-    }
-
-    /**
-     * Obtener errores por campo (útil para formularios)
-     */
-    getFieldErrors(): Record<string, string> {
-        const fieldErrors: Record<string, string> = {}
-
-        this.details.forEach(detail => {
-            if (detail.field) {
-                fieldErrors[detail.field] = detail.message
-            }
-        })
-
-        return fieldErrors
-    }
-
-    /**
-     * Verificar si hay errores de validación
-     */
-    hasValidationErrors(): boolean {
-        return this.details.some(detail => detail.code === 'validation')
-    }
-
-    /**
-     * Obtener primer error de validación para un campo específico
-     */
-    getFieldError(fieldName: string): string | null {
-        const fieldError = this.details.find(
-            detail => detail.field === fieldName && detail.code === 'validation'
-        )
-        return fieldError?.message || null
-    }
-}
-
-/**
  * Helper para mensajes genéricos por status code
  */
 function getGenericErrorMessage(status: number): string {
     switch (status) {
         case 400:
-            return ERROR_MESSAGES.INVALID_CREDENTIALS
+            return 'Solicitud incorrecta'
         case 401:
             return ERROR_MESSAGES.INVALID_CREDENTIALS
         case 403:

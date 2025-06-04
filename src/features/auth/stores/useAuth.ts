@@ -48,6 +48,11 @@ export const useAuthStore = create<AuthState>()(
                     // Si no se proporciona user, extraerlo del token
                     const userData = user || getUserFromToken(token)
 
+                    if (!userData) {
+                        console.warn('Token inválido o usuario no encontrado al extraer los datos del token.')
+                        return
+                    }
+
                     set(
                         {
                             token,
@@ -62,6 +67,10 @@ export const useAuthStore = create<AuthState>()(
 
                 setToken: (token: string) => {
                     const userData = getUserFromToken(token)
+                    if (!userData) {
+                        console.warn('Token inválido proporcionado al setToken.')
+                        return
+                    }
 
                     set(
                         {
@@ -185,6 +194,7 @@ export const useAuth = () => useAuthStore((state) => ({
     isValidSession: state.isValidSession(),
 }))
 
+// 🎯 Selectores para acceder a partes específicas del estado
 export const useAuthUser = () => useAuthStore((state) => state.user)
 export const useAuthToken = () => useAuthStore((state) => state.token)
 export const useIsAuthenticated = () => useAuthStore((state) => state.isAuthenticated)

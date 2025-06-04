@@ -1,11 +1,11 @@
+import { useState } from 'react'
+import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
-import { Eye, EyeOff, Mail } from 'lucide-react'
-import { useState } from 'react'
+import { Eye, EyeOff, User } from 'lucide-react'
 
 const loginSchema = z.object({
 	username: z
@@ -67,7 +67,7 @@ export function LoginForm() {
 						isRequired
 						isInvalid={!!errors.username}
 						size={'lg'}
-						endContent={<Mail strokeWidth={1.75} size={22} />}
+						endContent={<User strokeWidth={1.75} size={22} />}
 						description={errors.username?.message ?? null}
 					/>
 					<Input
@@ -82,15 +82,15 @@ export function LoginForm() {
 						endContent={
 							<button
 								aria-label="toggle password visibility"
-								className="focus:outline-none"
+								className="focus:outline-none pointer-events-auto cursor-pointer"
 								type="button"
 								onClick={toggleVisibility}
 							>
-							{showPassword ? (
-								<EyeOff strokeWidth={1.75} size={22} />
-							) : (
-								<Eye strokeWidth={1.75} size={22} />
-							)}
+								{showPassword ? (
+									<EyeOff strokeWidth={1.75} size={22} />
+								) : (
+									<Eye strokeWidth={1.75} size={22} />
+								)}
 							</button>
 						}
 						description={errors.password?.message ?? null}
