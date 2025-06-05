@@ -7,7 +7,8 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"build:production": "tsc -b && vite build --mode production",
-		"lint": "eslint .",
+		"lint": "eslint . --ext .ts,.tsx",
+		"format": "prettier --write .",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -45,9 +46,11 @@
 		"@types/react-dom": "^18.3.1",
 		"@vitejs/plugin-react-swc": "^3.9.0",
 		"eslint": "^9.25.0",
+		"eslint-config-prettier": "^10.1.5",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.19",
 		"globals": "^16.0.0",
+		"prettier": "^3.5.3",
 		"tw-animate-css": "^1.3.2",
 		"typescript": "~5.8.3",
 		"typescript-eslint": "^8.30.1",

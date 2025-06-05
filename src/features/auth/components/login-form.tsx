@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
-import { Button } from '@/shared/components/ui/button'
-import { Input } from '@/shared/components/ui/input'
-import { Eye, EyeOff, User } from 'lucide-react'
+import { useState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@tanstack/react-router';
+import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
+import { Eye, EyeOff, User } from 'lucide-react';
 
 const loginSchema = z.object({
 	username: z
@@ -18,13 +18,13 @@ const loginSchema = z.object({
 		.string({ required_error: 'La contraseña es obligatoria' })
 		.min(6, 'La contraseña debe tener al menos 6 caracteres')
 		.trim(),
-})
+});
 
-type LoginFormData = z.infer<typeof loginSchema>
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-	const [showPassword, setShowPassword] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const [showPassword, setShowPassword] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		register,
@@ -33,68 +33,67 @@ export function LoginForm() {
 	} = useForm<LoginFormData>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			username: 'aalmeyda',
+			username: '',
+			password: '',
 		},
-	})
+	});
 
 	const onSubmit = async (data: LoginFormData) => {
-		setIsLoading(true)
+		setIsLoading(true);
 		try {
 			// Aquí iría tu lógica de autenticación
-			console.log('Login data:', data)
+			console.log('Login data:', data);
 			// Simular delay
-			await new Promise((resolve) => setTimeout(resolve, 1000))
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			// Redirect to dashboard
 		} catch (error) {
-			console.error('Login error:', error)
+			console.error('Login error:', error);
 		} finally {
-			setIsLoading(false)
+			setIsLoading(false);
 		}
-	}
+	};
 
-	const toggleVisibility = () => 
-		setShowPassword((prev) => !prev)
-	
+	const toggleVisibility = () => setShowPassword((prev) => !prev);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<div className="space-y-4">
-					<Input
-						{...register('username')}
-						label='Nombre de usuario'
-						type="text"
-						placeholder="aalmeyda"
-						isRequired
-						isInvalid={!!errors.username}
-						size={'lg'}
-						endContent={<User strokeWidth={1.75} size={22} />}
-						description={errors.username?.message ?? null}
-					/>
-					<Input
-						id="password"
-						type={showPassword ? 'text' : 'password'}
-						placeholder="••••••"
-						{...register('password')}
-						size={'lg'}
-						label='Contraseña'
-						isInvalid={!!errors.password}
-						isRequired
-						endContent={
-							<button
-								aria-label="toggle password visibility"
-								className="focus:outline-none pointer-events-auto cursor-pointer"
-								type="button"
-								onClick={toggleVisibility}
-							>
-								{showPassword ? (
-									<EyeOff strokeWidth={1.75} size={22} />
-								) : (
-									<Eye strokeWidth={1.75} size={22} />
-								)}
-							</button>
-						}
-						description={errors.password?.message ?? null}
-					/>
+				<Input
+					{...register('username')}
+					label="Nombre de usuario"
+					type="text"
+					placeholder="aalmeyda"
+					isRequired
+					isInvalid={!!errors.username}
+					size={'lg'}
+					endContent={<User strokeWidth={1.75} size={22} />}
+					description={errors.username?.message ?? null}
+				/>
+				<Input
+					id="password"
+					type={showPassword ? 'text' : 'password'}
+					placeholder="••••••"
+					{...register('password')}
+					size={'lg'}
+					label="Contraseña"
+					isInvalid={!!errors.password}
+					isRequired
+					endContent={
+						<button
+							aria-label="toggle password visibility"
+							className="focus:outline-none pointer-events-auto cursor-pointer"
+							type="button"
+							onClick={toggleVisibility}
+						>
+							{showPassword ? (
+								<EyeOff strokeWidth={1.75} size={22} />
+							) : (
+								<Eye strokeWidth={1.75} size={22} />
+							)}
+						</button>
+					}
+					description={errors.password?.message ?? null}
+				/>
 			</div>
 
 			<div className="flex items-center justify-end">
@@ -115,5 +114,5 @@ export function LoginForm() {
 				{isLoading ? 'Ingresando...' : 'Ingresar'}
 			</Button>
 		</form>
-	)
+	);
 }

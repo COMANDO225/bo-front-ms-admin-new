@@ -10,10 +10,10 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './pages/__root'
-import { Route as RecoveryPasswordImport } from './pages/recovery-password'
-import { Route as LoginImport } from './pages/login'
-import { Route as IndexImport } from './pages/index'
+import { Route as rootRoute } from './../pages/__root'
+import { Route as RecoveryPasswordImport } from './../pages/recovery-password'
+import { Route as LoginImport } from './../pages/login'
+import { Route as IndexImport } from './../pages/index'
 
 // Create/Update Routes
 

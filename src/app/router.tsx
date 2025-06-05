@@ -1,19 +1,18 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-
-import { routeTree } from '@/routeTree.gen'
-import { Toaster } from '@/shared/components/ui/sonner'
+import { Toaster } from '@/shared/components/ui/sonner';
+import { routeTree } from '@/routes/__routeTree.gen__';
 
 const router = createRouter({
 	routeTree,
 	defaultPreload: 'intent',
-})
+});
 
 declare module '@tanstack/react-router' {
 	interface Register {
-		router: typeof router
+		router: typeof router;
 	}
 }
 
@@ -31,23 +30,20 @@ const queryClient = new QueryClient({
 					((error as { status?: number }).status === 404 ||
 						(error as { status?: number }).status === 403)
 				) {
-					return false
+					return false;
 				}
-				return failureCount < 2
+				return failureCount < 2;
 			},
 		},
 	},
-})
+});
 
 export function AppRouter() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={router} />
 			<ReactQueryDevtools initialIsOpen={false} />
-			<Toaster
-				position="top-right"
-				closeButton
-			/>
+			<Toaster position="top-right" closeButton />
 		</QueryClientProvider>
-	)
+	);
 }

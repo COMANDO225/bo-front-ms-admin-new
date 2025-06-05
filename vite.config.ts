@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import tailwindcss from '@tailwindcss/vite'
-import path from 'path'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
 		TanStackRouterVite({
 			routesDirectory: './src/pages',
-			generatedRouteTree: './src/routeTree.gen.ts',
+			generatedRouteTree: './src/routes/routeTree.gen.ts',
 			routeFileIgnorePrefix: '-',
 			quoteStyle: 'single',
 			target: 'react',
@@ -27,4 +27,4 @@ export default defineConfig({
 		host: true,
 		port: 5173,
 	},
-})
+});
