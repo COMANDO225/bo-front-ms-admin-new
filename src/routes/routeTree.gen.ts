@@ -11,21 +11,26 @@
 // Import Routes
 
 import { Route as rootRoute } from './../pages/__root'
-import { Route as RecoveryPasswordImport } from './../pages/recovery-password'
-import { Route as LoginImport } from './../pages/login'
+import { Route as AppImport } from './../pages/_app'
 import { Route as IndexImport } from './../pages/index'
+import { Route as AppDashboardImport } from './../pages/_app/dashboard'
+import { Route as authRecoveryPasswordImport } from './../pages/(auth)/recovery-password'
+import { Route as authLoginImport } from './../pages/(auth)/login'
+import { Route as AppOperativoVisitasImport } from './../pages/_app/operativo/visitas'
+import { Route as AppOperativoSeguimientoImport } from './../pages/_app/operativo/seguimiento'
+import { Route as AppOperativoRutasImport } from './../pages/_app/operativo/rutas'
+import { Route as AppOperativoPlanesImport } from './../pages/_app/operativo/planes'
+import { Route as AppOperativoFlotaImport } from './../pages/_app/operativo/flota'
+import { Route as AppOperativoDashboardImport } from './../pages/_app/operativo/dashboard'
+import { Route as AppOmsSolicitudesRecoleccionImport } from './../pages/_app/oms/solicitudes-recoleccion'
+import { Route as AppOmsPedidosImport } from './../pages/_app/oms/pedidos'
+import { Route as AppOmsDireccionesNoUbicadasImport } from './../pages/_app/oms/direcciones-no-ubicadas'
+import { Route as AppOmsDashboardImport } from './../pages/_app/oms/dashboard'
 
 // Create/Update Routes
 
-const RecoveryPasswordRoute = RecoveryPasswordImport.update({
-  id: '/recovery-password',
-  path: '/recovery-password',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
+const AppRoute = AppImport.update({
+  id: '/_app',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -33,6 +38,86 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppDashboardRoute = AppDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const authRecoveryPasswordRoute = authRecoveryPasswordImport.update({
+  id: '/(auth)/recovery-password',
+  path: '/recovery-password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authLoginRoute = authLoginImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppOperativoVisitasRoute = AppOperativoVisitasImport.update({
+  id: '/operativo/visitas',
+  path: '/operativo/visitas',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOperativoSeguimientoRoute = AppOperativoSeguimientoImport.update({
+  id: '/operativo/seguimiento',
+  path: '/operativo/seguimiento',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOperativoRutasRoute = AppOperativoRutasImport.update({
+  id: '/operativo/rutas',
+  path: '/operativo/rutas',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOperativoPlanesRoute = AppOperativoPlanesImport.update({
+  id: '/operativo/planes',
+  path: '/operativo/planes',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOperativoFlotaRoute = AppOperativoFlotaImport.update({
+  id: '/operativo/flota',
+  path: '/operativo/flota',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOperativoDashboardRoute = AppOperativoDashboardImport.update({
+  id: '/operativo/dashboard',
+  path: '/operativo/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOmsSolicitudesRecoleccionRoute =
+  AppOmsSolicitudesRecoleccionImport.update({
+    id: '/oms/solicitudes-recoleccion',
+    path: '/oms/solicitudes-recoleccion',
+    getParentRoute: () => AppRoute,
+  } as any)
+
+const AppOmsPedidosRoute = AppOmsPedidosImport.update({
+  id: '/oms/pedidos',
+  path: '/oms/pedidos',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppOmsDireccionesNoUbicadasRoute =
+  AppOmsDireccionesNoUbicadasImport.update({
+    id: '/oms/direcciones-no-ubicadas',
+    path: '/oms/direcciones-no-ubicadas',
+    getParentRoute: () => AppRoute,
+  } as any)
+
+const AppOmsDashboardRoute = AppOmsDashboardImport.update({
+  id: '/oms/dashboard',
+  path: '/oms/dashboard',
+  getParentRoute: () => AppRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -46,63 +131,261 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
-    '/recovery-password': {
-      id: '/recovery-password'
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/recovery-password': {
+      id: '/(auth)/recovery-password'
       path: '/recovery-password'
       fullPath: '/recovery-password'
-      preLoaderRoute: typeof RecoveryPasswordImport
+      preLoaderRoute: typeof authRecoveryPasswordImport
       parentRoute: typeof rootRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/oms/dashboard': {
+      id: '/_app/oms/dashboard'
+      path: '/oms/dashboard'
+      fullPath: '/oms/dashboard'
+      preLoaderRoute: typeof AppOmsDashboardImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/oms/direcciones-no-ubicadas': {
+      id: '/_app/oms/direcciones-no-ubicadas'
+      path: '/oms/direcciones-no-ubicadas'
+      fullPath: '/oms/direcciones-no-ubicadas'
+      preLoaderRoute: typeof AppOmsDireccionesNoUbicadasImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/oms/pedidos': {
+      id: '/_app/oms/pedidos'
+      path: '/oms/pedidos'
+      fullPath: '/oms/pedidos'
+      preLoaderRoute: typeof AppOmsPedidosImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/oms/solicitudes-recoleccion': {
+      id: '/_app/oms/solicitudes-recoleccion'
+      path: '/oms/solicitudes-recoleccion'
+      fullPath: '/oms/solicitudes-recoleccion'
+      preLoaderRoute: typeof AppOmsSolicitudesRecoleccionImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/dashboard': {
+      id: '/_app/operativo/dashboard'
+      path: '/operativo/dashboard'
+      fullPath: '/operativo/dashboard'
+      preLoaderRoute: typeof AppOperativoDashboardImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/flota': {
+      id: '/_app/operativo/flota'
+      path: '/operativo/flota'
+      fullPath: '/operativo/flota'
+      preLoaderRoute: typeof AppOperativoFlotaImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/planes': {
+      id: '/_app/operativo/planes'
+      path: '/operativo/planes'
+      fullPath: '/operativo/planes'
+      preLoaderRoute: typeof AppOperativoPlanesImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/rutas': {
+      id: '/_app/operativo/rutas'
+      path: '/operativo/rutas'
+      fullPath: '/operativo/rutas'
+      preLoaderRoute: typeof AppOperativoRutasImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/seguimiento': {
+      id: '/_app/operativo/seguimiento'
+      path: '/operativo/seguimiento'
+      fullPath: '/operativo/seguimiento'
+      preLoaderRoute: typeof AppOperativoSeguimientoImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/operativo/visitas': {
+      id: '/_app/operativo/visitas'
+      path: '/operativo/visitas'
+      fullPath: '/operativo/visitas'
+      preLoaderRoute: typeof AppOperativoVisitasImport
+      parentRoute: typeof AppImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppOmsDashboardRoute: typeof AppOmsDashboardRoute
+  AppOmsDireccionesNoUbicadasRoute: typeof AppOmsDireccionesNoUbicadasRoute
+  AppOmsPedidosRoute: typeof AppOmsPedidosRoute
+  AppOmsSolicitudesRecoleccionRoute: typeof AppOmsSolicitudesRecoleccionRoute
+  AppOperativoDashboardRoute: typeof AppOperativoDashboardRoute
+  AppOperativoFlotaRoute: typeof AppOperativoFlotaRoute
+  AppOperativoPlanesRoute: typeof AppOperativoPlanesRoute
+  AppOperativoRutasRoute: typeof AppOperativoRutasRoute
+  AppOperativoSeguimientoRoute: typeof AppOperativoSeguimientoRoute
+  AppOperativoVisitasRoute: typeof AppOperativoVisitasRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppOmsDashboardRoute: AppOmsDashboardRoute,
+  AppOmsDireccionesNoUbicadasRoute: AppOmsDireccionesNoUbicadasRoute,
+  AppOmsPedidosRoute: AppOmsPedidosRoute,
+  AppOmsSolicitudesRecoleccionRoute: AppOmsSolicitudesRecoleccionRoute,
+  AppOperativoDashboardRoute: AppOperativoDashboardRoute,
+  AppOperativoFlotaRoute: AppOperativoFlotaRoute,
+  AppOperativoPlanesRoute: AppOperativoPlanesRoute,
+  AppOperativoRutasRoute: AppOperativoRutasRoute,
+  AppOperativoSeguimientoRoute: AppOperativoSeguimientoRoute,
+  AppOperativoVisitasRoute: AppOperativoVisitasRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/recovery-password': typeof RecoveryPasswordRoute
+  '': typeof AppRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/recovery-password': typeof authRecoveryPasswordRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/oms/dashboard': typeof AppOmsDashboardRoute
+  '/oms/direcciones-no-ubicadas': typeof AppOmsDireccionesNoUbicadasRoute
+  '/oms/pedidos': typeof AppOmsPedidosRoute
+  '/oms/solicitudes-recoleccion': typeof AppOmsSolicitudesRecoleccionRoute
+  '/operativo/dashboard': typeof AppOperativoDashboardRoute
+  '/operativo/flota': typeof AppOperativoFlotaRoute
+  '/operativo/planes': typeof AppOperativoPlanesRoute
+  '/operativo/rutas': typeof AppOperativoRutasRoute
+  '/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
+  '/operativo/visitas': typeof AppOperativoVisitasRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/recovery-password': typeof RecoveryPasswordRoute
+  '': typeof AppRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/recovery-password': typeof authRecoveryPasswordRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/oms/dashboard': typeof AppOmsDashboardRoute
+  '/oms/direcciones-no-ubicadas': typeof AppOmsDireccionesNoUbicadasRoute
+  '/oms/pedidos': typeof AppOmsPedidosRoute
+  '/oms/solicitudes-recoleccion': typeof AppOmsSolicitudesRecoleccionRoute
+  '/operativo/dashboard': typeof AppOperativoDashboardRoute
+  '/operativo/flota': typeof AppOperativoFlotaRoute
+  '/operativo/planes': typeof AppOperativoPlanesRoute
+  '/operativo/rutas': typeof AppOperativoRutasRoute
+  '/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
+  '/operativo/visitas': typeof AppOperativoVisitasRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/recovery-password': typeof RecoveryPasswordRoute
+  '/_app': typeof AppRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
+  '/(auth)/recovery-password': typeof authRecoveryPasswordRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/oms/dashboard': typeof AppOmsDashboardRoute
+  '/_app/oms/direcciones-no-ubicadas': typeof AppOmsDireccionesNoUbicadasRoute
+  '/_app/oms/pedidos': typeof AppOmsPedidosRoute
+  '/_app/oms/solicitudes-recoleccion': typeof AppOmsSolicitudesRecoleccionRoute
+  '/_app/operativo/dashboard': typeof AppOperativoDashboardRoute
+  '/_app/operativo/flota': typeof AppOperativoFlotaRoute
+  '/_app/operativo/planes': typeof AppOperativoPlanesRoute
+  '/_app/operativo/rutas': typeof AppOperativoRutasRoute
+  '/_app/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
+  '/_app/operativo/visitas': typeof AppOperativoVisitasRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/recovery-password'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/recovery-password'
+    | '/dashboard'
+    | '/oms/dashboard'
+    | '/oms/direcciones-no-ubicadas'
+    | '/oms/pedidos'
+    | '/oms/solicitudes-recoleccion'
+    | '/operativo/dashboard'
+    | '/operativo/flota'
+    | '/operativo/planes'
+    | '/operativo/rutas'
+    | '/operativo/seguimiento'
+    | '/operativo/visitas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/recovery-password'
-  id: '__root__' | '/' | '/login' | '/recovery-password'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/recovery-password'
+    | '/dashboard'
+    | '/oms/dashboard'
+    | '/oms/direcciones-no-ubicadas'
+    | '/oms/pedidos'
+    | '/oms/solicitudes-recoleccion'
+    | '/operativo/dashboard'
+    | '/operativo/flota'
+    | '/operativo/planes'
+    | '/operativo/rutas'
+    | '/operativo/seguimiento'
+    | '/operativo/visitas'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/(auth)/login'
+    | '/(auth)/recovery-password'
+    | '/_app/dashboard'
+    | '/_app/oms/dashboard'
+    | '/_app/oms/direcciones-no-ubicadas'
+    | '/_app/oms/pedidos'
+    | '/_app/oms/solicitudes-recoleccion'
+    | '/_app/operativo/dashboard'
+    | '/_app/operativo/flota'
+    | '/_app/operativo/planes'
+    | '/_app/operativo/rutas'
+    | '/_app/operativo/seguimiento'
+    | '/_app/operativo/visitas'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LoginRoute: typeof LoginRoute
-  RecoveryPasswordRoute: typeof RecoveryPasswordRoute
+  AppRoute: typeof AppRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
+  authRecoveryPasswordRoute: typeof authRecoveryPasswordRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
-  RecoveryPasswordRoute: RecoveryPasswordRoute,
+  AppRoute: AppRouteWithChildren,
+  authLoginRoute: authLoginRoute,
+  authRecoveryPasswordRoute: authRecoveryPasswordRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +399,79 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/login",
-        "/recovery-password"
+        "/_app",
+        "/(auth)/login",
+        "/(auth)/recovery-password"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/login": {
-      "filePath": "login.tsx"
+    "/_app": {
+      "filePath": "_app.tsx",
+      "children": [
+        "/_app/dashboard",
+        "/_app/oms/dashboard",
+        "/_app/oms/direcciones-no-ubicadas",
+        "/_app/oms/pedidos",
+        "/_app/oms/solicitudes-recoleccion",
+        "/_app/operativo/dashboard",
+        "/_app/operativo/flota",
+        "/_app/operativo/planes",
+        "/_app/operativo/rutas",
+        "/_app/operativo/seguimiento",
+        "/_app/operativo/visitas"
+      ]
     },
-    "/recovery-password": {
-      "filePath": "recovery-password.tsx"
+    "/(auth)/login": {
+      "filePath": "(auth)/login.tsx"
+    },
+    "/(auth)/recovery-password": {
+      "filePath": "(auth)/recovery-password.tsx"
+    },
+    "/_app/dashboard": {
+      "filePath": "_app/dashboard.tsx",
+      "parent": "/_app"
+    },
+    "/_app/oms/dashboard": {
+      "filePath": "_app/oms/dashboard.tsx",
+      "parent": "/_app"
+    },
+    "/_app/oms/direcciones-no-ubicadas": {
+      "filePath": "_app/oms/direcciones-no-ubicadas.tsx",
+      "parent": "/_app"
+    },
+    "/_app/oms/pedidos": {
+      "filePath": "_app/oms/pedidos.tsx",
+      "parent": "/_app"
+    },
+    "/_app/oms/solicitudes-recoleccion": {
+      "filePath": "_app/oms/solicitudes-recoleccion.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/dashboard": {
+      "filePath": "_app/operativo/dashboard.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/flota": {
+      "filePath": "_app/operativo/flota.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/planes": {
+      "filePath": "_app/operativo/planes.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/rutas": {
+      "filePath": "_app/operativo/rutas.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/seguimiento": {
+      "filePath": "_app/operativo/seguimiento.tsx",
+      "parent": "/_app"
+    },
+    "/_app/operativo/visitas": {
+      "filePath": "_app/operativo/visitas.tsx",
+      "parent": "/_app"
     }
   }
 }

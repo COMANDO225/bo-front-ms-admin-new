@@ -5,3 +5,8 @@ export function base64UrlToBase64(input: string): string {
 	const base64 = input.replace(/-/g, '+').replace(/_/g, '/');
 	return base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
 }
+
+// obtener primera letra de un string
+export function firstLetter(input: string): string {
+	return input.charAt(0).toUpperCase();
+}

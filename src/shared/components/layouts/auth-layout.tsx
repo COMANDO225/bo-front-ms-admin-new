@@ -32,9 +32,9 @@ export function AuthLayout({
 	};
 
 	return (
-		<div className="min-h-screen grid relative overflow-hidden">
+		<div className="min-h-screen w-full h-full flex relative overflow-hidden">
 			<div
-				className="flex bg-cover bg-center bg-no-repeat relative"
+				className="order-1 z-[-1] lg:order-2 flex-1 bg-cover bg-center bg-no-repeat"
 				style={{
 					backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80')`,
 				}}
@@ -46,12 +46,13 @@ export function AuthLayout({
 			{/* efecto que va desde abajo hacia arriba */}
 			<div
 				className={cn(
-					'absolute bottom-0 shadow w-full h-fit p-8 pb-4 px-4 bg-background rounded-t-lg',
+					'absolute bottom-0 inset-x-0 bg-background rounded-t-lg shadow p-8 pb-4 px-4',
+					'lg:static lg:order-1 lg:flex-none lg:w-full lg:max-w-[460px] lg:flex lg:flex-col lg:justify-center lg:p-8 lg:shadow-none rounded-none rounded-r-2xl',
 					showBackLink && 'pt-4'
 				)}
 			>
 				{showBackLink && (
-					<div className="flex items-center text-sm text-muted-foreground bg-transparent hover:bg-gray-100 w-fit rounded-full py-1 pr-3 mb-4">
+					<div className="flex items-center text-sm text-muted-foreground bg-transparent hover:bg-gray-100 w-fit rounded-full py-1 pr-3 mb-6">
 						<button
 							className="flex gap-0 hover:gap-2 items-center hover:text-foreground transition-all"
 							onClick={handleBackClick}
