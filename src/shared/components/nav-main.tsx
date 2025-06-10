@@ -163,9 +163,7 @@ function NavSubItem({ item }: { item: MenuItem }) {
           </SidebarMenuSubButton>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="ml-3 border-l pl-3">
-            <NavSubItems items={item.items ?? []} />
-          </div>
+          <NavSubItems items={item.items ?? []} />
         </CollapsibleContent>
       </Collapsible>
     </SidebarMenuSubItem>

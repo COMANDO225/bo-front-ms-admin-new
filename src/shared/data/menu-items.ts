@@ -24,6 +24,10 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
     {
+        title: "Dashboard",
+        url: "/dashboard",
+    },
+    {
         title: "OMS",
         icon: Package2,
         items: [
