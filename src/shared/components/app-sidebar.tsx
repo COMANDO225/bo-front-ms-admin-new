@@ -10,20 +10,21 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/shared/components/ui/sidebar"
-import { data } from "../data/menu"
 import { menuItems } from "../data/menu-items"
+import { cuentasData } from "../data/cuentas"
+import { userData } from "../data/user"
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher cuentas={data.cuentas} />
+        <TeamSwitcher cuentas={cuentasData} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={menuItems} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
