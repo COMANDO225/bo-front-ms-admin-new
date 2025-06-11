@@ -1,4 +1,3 @@
-// src/app/shared/components/ui/nav-main.tsx
 import * as React from "react"
 import { ChevronRight } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
@@ -18,6 +17,7 @@ import {
   SidebarMenuSubItem,
 } from "@/shared/components/ui/sidebar"
 import { type MenuItem } from "@/shared/data/menu-items"
+import { cn } from "../lib/utils"
 
 interface NavMainProps {
   items: MenuItem[]
@@ -59,7 +59,7 @@ function NavItem({ item }: { item: MenuItem }) {
     return checkActive(item.items!)
   }, [hasChildren, item.items, location.pathname])
 
-  const isActive = item.url ? location.pathname === item.url : false
+  const isActive = (item.url ? location.pathname === item.url : false) || isChildActive
   const shouldOpen = isActive || isChildActive
 
   // Si no tiene hijos, renderizar como link simple
@@ -87,7 +87,10 @@ function NavItem({ item }: { item: MenuItem }) {
           <SidebarMenuButton
             tooltip={item.title}
             isActive={isActive}
-            className="[&[data-state=open]>svg:last-child]:rotate-90 h-10"
+            className={cn(
+              "[&[data-state=open]>svg:last-child]:rotate-90 h-10",
+              "group-data-[state=open]/collapsible:sticky"
+            )}
           >
             {item.icon && <item.icon className="h-4 w-4" />}
             <span>{item.title}</span>
@@ -115,7 +118,6 @@ function NavSubItems({ items }: { items: MenuItem[] }) {
 function NavSubItem({ item }: { item: MenuItem }) {
   const location = useLocation()
   const hasChildren = item.items && item.items.length > 0
-  const isActive = item.url ? location.pathname === item.url : false
 
   // Verificar si algún hijo está activo
   const isChildActive = React.useMemo(() => {
@@ -132,6 +134,7 @@ function NavSubItem({ item }: { item: MenuItem }) {
     return checkActive(item.items!)
   }, [hasChildren, item.items, location.pathname])
 
+  const isActive = (item.url ? location.pathname === item.url : false) || isChildActive
   const shouldOpen = isActive || isChildActive
 
   // Si no tiene hijos, renderizar como link simple
@@ -140,7 +143,7 @@ function NavSubItem({ item }: { item: MenuItem }) {
       <SidebarMenuSubItem>
         <SidebarMenuSubButton asChild isActive={isActive}>
           <Link to={item.url || "#"}>
-            {item.icon && <item.icon className="mr-2 h-3 w-3" />}
+            {item.icon && <item.icon className="h-3 w-3" />}
             <span>{item.title}</span>
           </Link>
         </SidebarMenuSubButton>

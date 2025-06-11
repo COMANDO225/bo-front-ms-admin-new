@@ -16,6 +16,7 @@ import { Route as IndexImport } from './../pages/index'
 import { Route as AppDashboardImport } from './../pages/_app/dashboard'
 import { Route as authRecoveryPasswordImport } from './../pages/(auth)/recovery-password'
 import { Route as authLoginImport } from './../pages/(auth)/login'
+import { Route as AppOmsIndexImport } from './../pages/_app/oms/index'
 import { Route as AppOperativoVisitasImport } from './../pages/_app/operativo/visitas'
 import { Route as AppOperativoSeguimientoImport } from './../pages/_app/operativo/seguimiento'
 import { Route as AppOperativoRutasImport } from './../pages/_app/operativo/rutas'
@@ -56,6 +57,12 @@ const authLoginRoute = authLoginImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppOmsIndexRoute = AppOmsIndexImport.update({
+  id: '/oms/',
+  path: '/oms/',
+  getParentRoute: () => AppRoute,
 } as any)
 
 const AppOperativoVisitasRoute = AppOperativoVisitasImport.update({
@@ -229,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOperativoVisitasImport
       parentRoute: typeof AppImport
     }
+    '/_app/oms/': {
+      id: '/_app/oms/'
+      path: '/oms'
+      fullPath: '/oms'
+      preLoaderRoute: typeof AppOmsIndexImport
+      parentRoute: typeof AppImport
+    }
   }
 }
 
@@ -246,6 +260,7 @@ interface AppRouteChildren {
   AppOperativoRutasRoute: typeof AppOperativoRutasRoute
   AppOperativoSeguimientoRoute: typeof AppOperativoSeguimientoRoute
   AppOperativoVisitasRoute: typeof AppOperativoVisitasRoute
+  AppOmsIndexRoute: typeof AppOmsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -260,6 +275,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOperativoRutasRoute: AppOperativoRutasRoute,
   AppOperativoSeguimientoRoute: AppOperativoSeguimientoRoute,
   AppOperativoVisitasRoute: AppOperativoVisitasRoute,
+  AppOmsIndexRoute: AppOmsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -280,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/operativo/rutas': typeof AppOperativoRutasRoute
   '/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
   '/operativo/visitas': typeof AppOperativoVisitasRoute
+  '/oms': typeof AppOmsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -298,6 +315,7 @@ export interface FileRoutesByTo {
   '/operativo/rutas': typeof AppOperativoRutasRoute
   '/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
   '/operativo/visitas': typeof AppOperativoVisitasRoute
+  '/oms': typeof AppOmsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -317,6 +335,7 @@ export interface FileRoutesById {
   '/_app/operativo/rutas': typeof AppOperativoRutasRoute
   '/_app/operativo/seguimiento': typeof AppOperativoSeguimientoRoute
   '/_app/operativo/visitas': typeof AppOperativoVisitasRoute
+  '/_app/oms/': typeof AppOmsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -337,6 +356,7 @@ export interface FileRouteTypes {
     | '/operativo/rutas'
     | '/operativo/seguimiento'
     | '/operativo/visitas'
+    | '/oms'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -354,6 +374,7 @@ export interface FileRouteTypes {
     | '/operativo/rutas'
     | '/operativo/seguimiento'
     | '/operativo/visitas'
+    | '/oms'
   id:
     | '__root__'
     | '/'
@@ -371,6 +392,7 @@ export interface FileRouteTypes {
     | '/_app/operativo/rutas'
     | '/_app/operativo/seguimiento'
     | '/_app/operativo/visitas'
+    | '/_app/oms/'
   fileRoutesById: FileRoutesById
 }
 
@@ -420,7 +442,8 @@ export const routeTree = rootRoute
         "/_app/operativo/planes",
         "/_app/operativo/rutas",
         "/_app/operativo/seguimiento",
-        "/_app/operativo/visitas"
+        "/_app/operativo/visitas",
+        "/_app/oms/"
       ]
     },
     "/(auth)/login": {
@@ -471,6 +494,10 @@ export const routeTree = rootRoute
     },
     "/_app/operativo/visitas": {
       "filePath": "_app/operativo/visitas.tsx",
+      "parent": "/_app"
+    },
+    "/_app/oms/": {
+      "filePath": "_app/oms/index.tsx",
       "parent": "/_app"
     }
   }

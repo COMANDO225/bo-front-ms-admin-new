@@ -11,6 +11,7 @@ import {
     Activity,
     Route,
     CarFront,
+    LayoutDashboard,
 } from 'lucide-react'
 import { type LucideIcon } from 'lucide-react'
 
@@ -24,20 +25,18 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
     {
-        title: "Dashboard",
-        url: "/dashboard",
-    },
-    {
         title: "OMS",
         icon: Package2,
         items: [
             {
                 title: "Dashboard",
                 url: "/oms/dashboard",
+                icon: LayoutDashboard,
             },
             {
                 title: "Pedidos",
                 url: "/oms/pedidos",
+
             },
             {
                 title: "Solicitudes de Recolección",

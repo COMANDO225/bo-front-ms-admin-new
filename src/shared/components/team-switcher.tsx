@@ -14,8 +14,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/shared/components/ui/sidebar"
-import type { Cuenta } from "../data/menu"
 import { firstLetter } from "../utils/formatters"
+import type { Cuenta } from "../data/cuentas"
 
 export function TeamSwitcher({ cuentas }: { cuentas: Cuenta[] }) {
   const { isMobile } = useSidebar()
